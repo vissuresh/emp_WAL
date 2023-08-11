@@ -1,12 +1,74 @@
 from flask import Flask, request
 import json
 
+def goto_line(f, n):
+    for i in range(n-1):
+        f.readline()
+    return f
+
 app = Flask(__name__)
 with open('./home/emp_count.txt') as emp_count:
     try:    
-        emp_counter = int(emp_count.readline().strip('\n')) + 1
+        emp_counter = int(emp_count.readline().strip('\n'))
     except:
-        pass
+        emp_counter = 0
+    
+flush_length = 0
+
+# In memory hash_map
+with open('./home/data.json') as db:
+    memstore = json.load(db)
+    
+    
+# Updating pending actions in LOG
+with open('./home/log_pointer.txt') as lp:
+    log_pointer = int(lp.read())
+    
+
+# Reading the log file from line log_pointer. READ 
+with open("./home/wal.log") as log_reader:
+    log_reader = goto_line(log_reader, log_pointer)
+    
+
+    # Line in log: ReqID | Method | Length | Payload
+    log_line = log_reader.readline()
+    while(log_line):
+        print(log_line)
+        req_id, method, length, payload = log_line.split("|")
+        payload = json.loads(payload)
+        
+        if method == "POST":
+            memstore[emp_counter] = payload
+            emp_counter +=1
+               
+        elif method == "PUT":
+            memstore[payload['employeeId']] = {"name":payload["name"], "city":payload["city"]}
+            
+        elif method == "DELETE":
+            memstore.pop(payload["employeeId"])       
+            
+            
+        flush_length +=1
+        
+        # Write to file storage if flush_length >= 10
+        # if flush_length >= 10:
+            
+        with open('./home/data.json','w') as db_writer:
+            json.dump(memstore, db_writer)
+            
+        with open('./home/emp_count.txt','w') as empCount_writer:
+            empCount_writer.write(str(emp_counter))
+            
+        with open('./home/log_pointer.txt','w') as lp:
+            lp.write(req_id+1)
+            
+        flush_length = 0
+            
+        log_line = log_reader.readline()
+            
+    
+ 
+
 
 # Greeting 
 @app.route("/greeting", methods=['GET'])
@@ -16,125 +78,33 @@ def greeting():
 # Create Employee
 @app.route('/employee', methods=['POST'])
 def create_employee():
-    new_emp = json.loads(request.data)
-    global emp_counter
-    
-    db_writer = open('./home/db.txt','a+')
-    
-    new_data = str(emp_counter) + ',' + new_emp['name'] + ',' + new_emp['city'] + '\n'
-    db_writer.write(new_data)
-    emp_counter += 1
-    
-    # Update emp_count file
-    with open('./home/emp_count.txt','w') as emp_count:
-        emp_count.write(str(emp_counter))
-    
-    db_writer.close()
-    return {'employeeId':str(emp_counter-1)}, 201
+    pass
+
 
 # Get all Employee details
 @app.route('/employees/all', methods=['GET'])
 def get_all_employees():
-    db_reader = open('./home/db.txt')
-    all_data = db_reader.readlines()
-    out_data = []
-    
-    for line in all_data:
-        line = line.strip('\n').split(',')
-        emp = {}
-        emp['employeeId'], emp['name'], emp['city'] = line
-        out_data.append(emp)
-        
-    db_reader.close()
+    pass
 
-    return out_data, 200
-
-
-def binary_search_emp(id, all_data):
-
-    emp = {}
-    
-    # Binary Search
-    low, high = 0, len(all_data) - 1
-    mid = None
-    
-    while low<=high:
-        mid = low + (high-low)//2
-        mid_line = all_data[mid].strip('\n').split(',')
-        
-        if mid_line[0] == id:
-            emp['employeeId'], emp['name'], emp['city'] = mid_line
-            break
-        
-        
-        elif int(mid_line[0]) < int(id):
-            low = mid+1
-        
-        else:
-            high = mid-1
-            
-    return emp,mid
-    
 
 # Get Employee details
 @app.route('/employee/<id>', methods=['GET'])
 def get_employee(id):
-    db_reader = open('./home/db.txt')
-    all_data = db_reader.readlines()
-    db_reader.close()
-    
-    emp, index = binary_search_emp(id, all_data)
-        
-    if emp == {}:
-        return { 'message' : "Employee with {} was not found".format(id) }, 404
-        
-    return emp, 200
+    pass
+
 
 # Update Employee
 @app.route('/employee/<id>', methods=['PUT'])
 def update_employee(id):
-    new_emp = json.loads(request.data)
-    
-    db_reader = open('./home/db.txt')
-    all_data = db_reader.readlines()
-    db_reader.close()
-    
-    emp, index = binary_search_emp(id, all_data)
-    
-    if emp == {}:
-        return { "message" : "Employee with {} was not found".format(id) }, 404 
-    
-    emp['name'], emp['city'] = new_emp['name'], new_emp['city']
-    
-    print(all_data[index])
-    print(type(all_data[index]))
-    
-    all_data[index] = emp['employeeId'] + ',' + new_emp['name'] + ',' + new_emp['city'] + '\n'
-    
-    with open('./home/db.txt','w') as db_writer:
-        db_writer.writelines(all_data)
-        
-    return emp, 201
+    pass
+
 
 # Delete Employee
 @app.route('/employee/<id>', methods=['DELETE'])
 def delete_employee(id):
+    pass
 
-    db_reader = open('./home/db.txt')
-    all_data = db_reader.readlines()
-    db_reader.close()    
-    
-    emp, index = binary_search_emp(id, all_data)   
-    
-    if emp == {}:
-        return { "message" : "Employee with {} was not found".format(id) }, 404 
-    
-    all_data.pop(index)
-    
-    with open('./home/db.txt','w') as db_writer:
-        db_writer.writelines(all_data)
 
-    return emp, 200
 
 
 def search_wrapper(fName, e, n):
@@ -159,73 +129,8 @@ def search_wrapper(fName, e, n):
 # Search for employees
 @app.route('/employees/search', methods=['POST'])
 def search_employees():
-    search = json.loads(request.data)
-    error = {"messages" : []}
+    pass
     
-    fields = search.get('fields')
-    if fields is None or len(fields) == 0:
-        return {"messages": ["At least one search criteria should be passed."]}, 400
-        
-        
-    condition = search.get('condition',"AND")
-    matched_emps = []
-    matched_emp_ids = []
-    search_filters = []
-        
-    
-    # Creating list of search filters
-    for field in search.get('fields'):
-        
-        
-        fieldName = field.get('fieldName')
-        eq = field.get('eq')
-        neq = field.get('neq')
-        
-        
-        if fieldName is None:
-            error['messages'].append("fieldName must be set.")
-            
-        elif (eq is None) and (neq is None):
-            error['messages'].append("{}: At least one of eq, neq must be set.".format(fieldName))
-            
-        else:
-            filter_fun = search_wrapper(fieldName, eq, neq)
-            search_filters.append(filter_fun)
-            
-    
-    #Check if any errors
-    if len(error['messages']) != 0:
-        return error, 400
-        
-    
-    # Checking each employee
-    db_reader = open('./home/db.txt')
-    
-    for line in db_reader.readlines():
-        emp = {}
-        emp['employeeId'], emp['name'], emp['city'] = line.strip('\n').split(',')
-        
-        if int(emp['employeeId']) not in matched_emp_ids:
-
-            
-            if condition == "AND":
-                accepted = True
-                for fun in search_filters:
-                    accepted = accepted and fun(emp)
-                    
-            else:
-                accepted = False
-                for fun in search_filters:
-                    accepted = accepted or fun(emp)
-                    
-            if accepted:
-                matched_emps.append(emp)
-                matched_emp_ids.append(int(emp['employeeId']))
-                
-    db_reader.close()
-    return matched_emps, 200
-        
-
-
-if __name__ == '__main__':
-    app.run(port=8080,host='0.0.0.0')
+ 
+# if __name__ == '__main__':
+#     app.run(port=8080,host='0.0.0.0')
