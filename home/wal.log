@@ -12,3 +12,6 @@
 10|POST|37|{"name": "Srikar", "city": "Chennai"}
 11|POST|37|{"name": "Dravid", "city": "Chennai"}
 12|DELETE|19|{"employeeId": "7"}
+13|POST|39|{"name": "Rajini", "city": "Bangalore"}
+14|POST|37|{"name": "Kamal", "city": "Alwarpet"}
+15|DELETE|19|{"employeeId": "9"}

@@ -1,7 +1,7 @@
 {
     "metadata": {
-        "emp_counter": 8,
-        "log_pointer": 13
+        "emp_counter": 10,
+        "log_pointer": 16
     },
     "employees": {
         "0": {
@@ -23,6 +23,10 @@
         "6": {
             "name": "Srikar",
             "city": "Chennai"
+        },
+        "8": {
+            "name": "Rajini",
+            "city": "Bangalore"
         }
     }
 }

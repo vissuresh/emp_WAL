@@ -1,22 +1,6 @@
-<p align="center">
-<img src="http://nano.sahaj.ai/27ad2091b1714f583886.png" width="320" height="162" alt="Logo" title="NaN(O) logo">
-</p>
-
-# Employee Management - a NaN(O) problem
-
-## What is NaN(O)
-
-At Sahaj, tech consultants operate at the intersection between engineering and art. Simply put, they are artisans who take on complex engineering problems in the software industry across a wide spectrum of domains. Their work is deeply rooted in first principles thinking - asking fundamental questions to dissect and understand a problem which eventually leads to one-of-a-kind solutions, each as distinct as a fingerprint.
-
-Through NaN(O), a hackathon driven by Sahaj across multiple colleges in India, they want to instill a culture of applying first principles thinking to a problem statement.
-
-------
-
 ## Problem statement
 
 We need a system to be able to manage data for employees. Requests will be accepted over HTTP ([API contract](#api-contract)). No databases/libraries can be used to store/maintain data.
-
-Fastest applications win.
 
 ------
 
@@ -229,26 +213,3 @@ Empty search criteria should produce an error response.
 
 ----
 [API Sample Request Response](api-sample.md)
----
-## Competition rules
-
-Check <a href="http://nano.sahaj.ai/rules.html" target="_blank">rules and scoring</a> pages for details. When in doubt, ask the organizers and we will add clarifications to the page.
-
-## Sample Instructions for coding/committing
-* git clone `git repository url` (Skip this step if using github codespaces)
-* cd `repository name` (Skip this step if using github codespaces)
-* Goto [server.py](server.py)
-* Begin coding
-* Code needs to be tested via github? Execute following commands in the terminal location of your repository
-  * git add .
-  * git commit -m 'any message regarding your changes'
-  * git push
-* Wait for build to complete in github actions logs.
-* If build is green, you should see the score on the leader board, else check with actions logs.
-
-## Sample Instructions for Codespaces installation
-* On your browser after accepting the github invitation, 
-  * Celect "Code" dropdown 
-  * Select the "Codespaces" tab.
-  * Select "Create codespace on main"
-* Continue from step 3 of Sample Instructions for coding/commit
