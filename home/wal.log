@@ -1,2 +1,14 @@
 .LOG
-2|POST|41|{"2":{"name":"Ganesh", "city":"Vellore"}}
+0|POST|46|{"name": "Viswesh", "city": "Chennai"}
+1|POST|48|{"name": "Sai Deepa", "city": "Nellore"}
+2|PUT|39|{"name": "Ganesh", "city": "Arakkonam", "employeeId": "0"}
+3|PUT|56|{"name": "Ammu", "city": "Hyderabad", "employeeId": "3"}
+4|PUT|68|{"name": "Ganesh Krishna", "city": "Jolarpettai", "employeeId": "0"}
+5|DELETE|18|{"employeeId":"1"}
+6|POST|41|{"name": "Srinidhi", "city": "Bangalore"}
+7|POST|37|{"name": "Srikar", "city": "Chennai"}
+8|PUT|55|{"name": "Sai Deepa", "city": "USA", "employeeId": "3"}
+9|DELETE|19|{"employeeId": "5"}
+10|POST|37|{"name": "Srikar", "city": "Chennai"}
+11|POST|37|{"name": "Dravid", "city": "Chennai"}
+12|DELETE|19|{"employeeId": "7"}

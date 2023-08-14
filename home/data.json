@@ -1,1 +1,28 @@
-{"0": {"2": {"name": "Ganesh", "city": "Vellore"}}, "1": {"name": "Vinith", "city": "Madurai"}, "2": {"2": {"name": "Ganesh", "city": "Vellore"}}, "0": {"2": {"name": "Ganesh", "city": "Vellore"}}}
+{
+    "metadata": {
+        "emp_counter": 8,
+        "log_pointer": 13
+    },
+    "employees": {
+        "0": {
+            "name": "Ganesh Krishna",
+            "city": "Jolarpettai"
+        },
+        "2": {
+            "name": "Viswesh",
+            "city": "Chennai"
+        },
+        "3": {
+            "name": "Sai Deepa",
+            "city": "USA"
+        },
+        "4": {
+            "name": "Srinidhi",
+            "city": "Bangalore"
+        },
+        "6": {
+            "name": "Srikar",
+            "city": "Chennai"
+        }
+    }
+}
