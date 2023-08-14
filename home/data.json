@@ -1,32 +1,8 @@
 {
     "metadata": {
-        "emp_counter": 10,
-        "log_pointer": 16
+        "emp_counter": 0,
+        "log_pointer": 0
     },
     "employees": {
-        "0": {
-            "name": "Ganesh Krishna",
-            "city": "Jolarpettai"
-        },
-        "2": {
-            "name": "Viswesh",
-            "city": "Chennai"
-        },
-        "3": {
-            "name": "Sai Deepa",
-            "city": "USA"
-        },
-        "4": {
-            "name": "Srinidhi",
-            "city": "Bangalore"
-        },
-        "6": {
-            "name": "Srikar",
-            "city": "Chennai"
-        },
-        "8": {
-            "name": "Rajini",
-            "city": "Bangalore"
-        }
     }
 }
